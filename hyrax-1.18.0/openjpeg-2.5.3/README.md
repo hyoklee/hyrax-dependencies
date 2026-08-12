@@ -21,7 +21,7 @@ PATH before `/usr/bin`):
 
 ```bash
 ln -sf /home/hyoklee/bin/cmake-3.26.0-linux-x86_64/bin/{cmake,ctest,cpack,ccmake,cmake-gui} \
-       /home/hyoklee/pkg/hyrax-1.8.0/deps/bin/
+       /home/hyoklee/pkg/hyrax-1.18.0/deps/bin/
 ```
 
 Then:

@@ -27,7 +27,7 @@ surface there. On giraffe they must be supplied by hand.
 export PATH=/home/hyoklee/bin/cmake-3.26.0-linux-x86_64/bin:$PATH
 # symlinks into $prefix/deps/bin also make cmake/ctest/cpack resolve early:
 #   ln -sf /home/hyoklee/bin/cmake-3.26.0-linux-x86_64/bin/{cmake,ctest,cpack,ccmake,cmake-gui} \
-#          /home/hyoklee/pkg/hyrax-1.8.0/deps/bin/
+#          /home/hyoklee/pkg/hyrax-1.18.0/deps/bin/
 
 # modern C++ compiler (gcc 5.4 via /home/tomcat/bin, or devtoolset-8)
 source /opt/rh/devtoolset-8/enable   # or ensure /home/tomcat/bin gcc is on PATH

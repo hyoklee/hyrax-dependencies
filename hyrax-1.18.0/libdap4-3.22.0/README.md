@@ -1,7 +1,7 @@
 # libdap4-3.22.0 — build & install on giraffe (CentOS 7.9)
 
 Builds libdap4 3.22.0 with cmake against the hyrax dependencies and installs
-to the hyrax prefix (`$prefix` = `/home/hyoklee/pkg/hyrax-1.8.0`), same tree the
+to the hyrax prefix (`$prefix` = `/home/hyoklee/pkg/hyrax-1.18.0`), same tree the
 deps use (deps live under `$prefix/deps`).
 
 ## Prerequisites
@@ -10,7 +10,7 @@ Source the giraffe toolchain env first (cmake 3.26, gcc, sqlite, `prefix`):
 
 ```bash
 cd /home/hyoklee/src/hyrax-dependencies-hyrax-1.18.0
-source /home/hyoklee/src/hyrax-dependencies/hyrax-1.8.0/setup-giraffe-env.sh
+source /home/hyoklee/src/hyrax-dependencies/hyrax-1.18.0/setup-giraffe-env.sh
 ```
 
 libdap4's cmake (`cmake_minimum_required 3.20`) requires: CppUnit, LibXml2,

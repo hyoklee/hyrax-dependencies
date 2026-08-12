@@ -2,7 +2,7 @@
 
 Builds BES 3.22.0 with **autotools** against the installed libdap (found via
 `dap-config`) and the hyrax deps, installing to the same prefix
-(`$prefix` = `/home/hyoklee/pkg/hyrax-1.8.0`).
+(`$prefix` = `/home/hyoklee/pkg/hyrax-1.18.0`).
 
 No BES source files are patched — all fixes are configure flags plus two
 environment provisions (a libbz2 dev symlink and a newer OpenSSL). The

@@ -10,7 +10,7 @@
 # USAGE (must be sourced so it can modify your shell env):
 #
 #     cd /home/hyoklee/src/hyrax-dependencies-hyrax-1.18.0
-#     source /home/hyoklee/src/hyrax-dependencies/hyrax-1.8.0/setup-giraffe-env.sh
+#     source /home/hyoklee/src/hyrax-dependencies/hyrax-1.18.0/setup-giraffe-env.sh
 #     make            # or: make hdf5 / make proj / make aws_cdk ...
 #
 # Override defaults via env vars before sourcing if paths differ:
