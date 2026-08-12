@@ -36,6 +36,11 @@ source /opt/rh/devtoolset-8/enable   # or ensure /home/tomcat/bin gcc is on PATH
 source spath.sh
 ```
 
+`spath.sh` (a giraffe-local copy is kept here for reference) sets
+`prefix=/home/hyoklee/pkg/hyrax-1.18.0` on line 12 and derives PATH /
+LD_LIBRARY_PATH from it. The deps install to `$prefix/deps`; libdap and BES
+install to `$prefix`.
+
 ## Per-package fixes
 
 - **openjpeg-2.5.3** — no source change; needs cmake ≥3.5 (use 3.26). See its dir.
