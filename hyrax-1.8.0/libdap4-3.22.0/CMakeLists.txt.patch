@@ -1,7 +1,15 @@
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -402,25 +402,30 @@
+@@ -400,27 +400,38 @@
+ install(FILES ${DAP_HDR} ${DAP_GENERATED_HDR} ${DAP4_ONLY_HDR} ${CLIENT_HDR} ${SERVER_HDR}
+         DESTINATION include/libdap)
  
++# BES's dapreader (and other) modules include the libdap Test* factory headers
++# as <test/TestTypeFactory.h> from the installed tree. Install them under
++# include/libdap/test/ so downstream builds against installed libdap resolve them.
++file(GLOB DAP_TEST_HDR "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.h")
++install(FILES ${DAP_TEST_HDR} DESTINATION include/libdap/test)
++
  include(CTest)      # defines the BUILD_TESTING option (defaults ON)
  enable_testing()
 +if(BUILD_TESTING)

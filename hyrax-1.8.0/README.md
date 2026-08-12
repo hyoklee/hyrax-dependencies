@@ -62,6 +62,15 @@ gdal                    → skipped (intentional)
 
 ## Downstream components
 
+Build order: deps → **libdap4** → **bes**. The whole stack must use one C++
+compiler/ABI — build everything with `g++` = gcc 5.4 (`/home/tomcat/bin`, new
+`_GLIBCXX_USE_CXX11_ABI=1`). Do not let cmake auto-pick devtoolset-8's `c++`
+(old ABI) for libdap, or BES will fail to link against it.
+
 - **libdap4-3.22.0** — built with cmake against these deps and installed to
   `$prefix` (not `$prefix/deps`). Needs a CppUnit built into `$prefix/deps`
-  (`build-cppunit.sh`) plus two CentOS 7 source patches. See its dir.
+  (`build-cppunit.sh`), two CentOS 7 source patches, and **must be built with
+  gcc 5.4** for ABI consistency. See its dir.
+- **bes-3.22.0-0** — built with autotools against the installed libdap
+  (`dap-config`) and the deps, installed to `$prefix`. No BES source patches;
+  needs a libbz2 dev symlink and OpenSSL >= 1.1 (`/usr/local`). See its dir.
