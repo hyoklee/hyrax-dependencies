@@ -1,0 +1,20 @@
+--- a/Makefile
++++ b/Makefile
+@@ -195,7 +195,7 @@
+ 	@if test -d $(aws_cdk_src); then \
+ 	    echo "Using existing AWS SDK git clone"; \
+ 	else \
+-	    git clone --depth 1 --shallow-submodules --branch $(aws_cdk_tag) --recurse-submodules https://github.com/aws/aws-sdk-cpp $(aws_cdk_src); \
++	    git clone --depth 1 --branch $(aws_cdk_tag) --recurse-submodules https://github.com/aws/aws-sdk-cpp $(aws_cdk_src); \
+ 	fi
+ 	echo timestamp > $(aws_cdk_src)-stamp
+ 
+@@ -203,7 +203,7 @@
+ 	mkdir -p $(aws_cdk_src)/build
+ 	(cd $(aws_cdk_src)/build \
+ 	 && cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$(prefix)/deps -DBUILD_ONLY="s3" \
+-	 	$(CMAKE_OSX_FLAGS) -DAUTORUN_UNIT_TESTS=OFF $(CMAKE_FLAGS))
++	 	$(CMAKE_OSX_FLAGS) -DAUTORUN_UNIT_TESTS=OFF -DUSE_OPENSSL=OFF -DENABLE_TESTING=OFF $(CMAKE_FLAGS))
+ 	echo timestamp > aws_cdk-configure-stamp
+ 
+ # We might want to use for development cmake --build . "--config Debug"
