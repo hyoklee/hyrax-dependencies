@@ -59,3 +59,9 @@ aws_cdk, bison, gridfields, hdf4, hdf5, hdfeos, jpeg, netcdf4,
 openjpeg, proj, stare   → built and installed
 gdal                    → skipped (intentional)
 ```
+
+## Downstream components
+
+- **libdap4-3.22.0** — built with cmake against these deps and installed to
+  `$prefix` (not `$prefix/deps`). Needs a CppUnit built into `$prefix/deps`
+  (`build-cppunit.sh`) plus two CentOS 7 source patches. See its dir.

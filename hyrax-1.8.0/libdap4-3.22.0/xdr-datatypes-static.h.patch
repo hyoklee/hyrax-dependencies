@@ -1,0 +1,28 @@
+--- a/xdr-datatypes-static.h
++++ b/xdr-datatypes-static.h
+@@ -33,16 +33,25 @@
+ #endif
+ 
+ #ifndef XDR_UINT32
++#if defined(__GLIBC__) && !defined(WIN32)
++/* glibc built-in Sun RPC spells these without the extra underscore; TIRPC/BSD use xdr_u_int32_t */
++#define XDR_UINT32 xdr_uint32_t
++#else
+ #define XDR_UINT32 xdr_u_int32_t
+ #endif
++#endif
+ 
+ #ifndef XDR_INT16
+ #define XDR_INT16 xdr_int16_t
+ #endif
+ 
+ #ifndef XDR_UINT16
++#if defined(__GLIBC__) && !defined(WIN32)
++#define XDR_UINT16 xdr_uint16_t
++#else
+ #define XDR_UINT16 xdr_u_int16_t
+ #endif
++#endif
+ 
+ #ifndef XDR_FLOAT64
+ #define XDR_FLOAT64 xdr_double
