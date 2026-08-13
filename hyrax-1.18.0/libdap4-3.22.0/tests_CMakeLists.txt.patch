@@ -1,0 +1,17 @@
+--- a/tests/CMakeLists.txt
++++ b/tests/CMakeLists.txt
+@@ -43,6 +43,8 @@
+ file(GLOB TEST_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+ 
+ 
++if(BUILD_TESTING)
++
+ add_executable(das-test das-test.cc)
+ target_link_libraries(das-test PRIVATE test-types dapserver dap)
+ target_include_directories(das-test PRIVATE ${LIBXML2_INCLUDE_DIR})
+@@ -172,3 +174,5 @@
+ add_autotest_suite_test(EXPRTest expr)
+ add_autotest_suite_test(DMRTest dmr)
+ add_autotest_suite_test(getdapTest getdap)
++
++endif(BUILD_TESTING)

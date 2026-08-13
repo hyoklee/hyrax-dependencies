@@ -1,6 +1,6 @@
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -400,27 +400,38 @@
+@@ -400,27 +400,41 @@
  install(FILES ${DAP_HDR} ${DAP_GENERATED_HDR} ${DAP4_ONLY_HDR} ${CLIENT_HDR} ${SERVER_HDR}
          DESTINATION include/libdap)
  
@@ -12,8 +12,11 @@
 +
  include(CTest)      # defines the BUILD_TESTING option (defaults ON)
  enable_testing()
-+if(BUILD_TESTING)
++# test-types (built in tests/) is a runtime dependency of downstream code
++# (e.g. BES's dapreader module), so build/install it unconditionally. The
++# test executables inside tests/ are still guarded by BUILD_TESTING.
  add_subdirectory(tests)
++if(BUILD_TESTING)
  add_subdirectory(unit-tests)
  add_subdirectory(d4_ce/unit-tests)
  add_subdirectory(http_dap/unit-tests)

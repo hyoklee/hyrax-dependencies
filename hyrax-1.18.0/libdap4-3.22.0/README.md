@@ -50,6 +50,7 @@ two compiler flags above.)
 cd /home/hyoklee/src/libdap4-3.22.0
 patch -p1 < .../libdap4-3.22.0/xdr-datatypes-static.h.patch
 patch -p1 < .../libdap4-3.22.0/CMakeLists.txt.patch
+patch -p1 < .../libdap4-3.22.0/tests_CMakeLists.txt.patch
 ```
 
 ### 1. `xdr-datatypes-static.h.patch`
@@ -65,14 +66,14 @@ The static header hardcodes the TIRPC spellings `xdr_u_int16_t` /
 `__GLIBC__` (and non-WIN32), leaving the TIRPC/BSD path unchanged for other
 platforms.
 
-### 2. `CMakeLists.txt.patch` (two changes)
+### 2. `CMakeLists.txt.patch` (three changes)
 
-**a) Guard the tests with `BUILD_TESTING`.** The unit-test executables link
+**a) Guard the unit tests with `BUILD_TESTING`.** The unit-test executables link
 `libcppunit.so` (built with gcc 5.4, needs `GLIBCXX_3.4.21`) against the older
 system libstdc++ (4.8.5) →
 `undefined reference to std::runtime_error::runtime_error@GLIBCXX_3.4.21`.
-The tests are auxiliary and not part of the install, but their subdirectories
-were added unconditionally. The patch wraps the four test `add_subdirectory`
+Those subdirectories were added unconditionally. The patch wraps the
+`unit-tests` / `d4_ce/unit-tests` / `http_dap/unit-tests` `add_subdirectory`
 calls and the `unit-test` / `integration-test` / `check` custom targets in
 `if(BUILD_TESTING) ... endif()`, so `-DBUILD_TESTING=OFF` skips them cleanly.
 
@@ -83,6 +84,29 @@ tree as `<test/TestTypeFactory.h>` and fails with
 `fatal error: test/TestTypeFactory.h: No such file or directory`. The patch
 adds an `install(FILES tests/*.h DESTINATION include/libdap/test)` rule, so the
 installed tree has `include/libdap/test/*.h` (27 headers).
+
+**c) Build/install `test-types` even with `BUILD_TESTING=OFF`.**
+`add_subdirectory(tests)` is moved OUT of the `BUILD_TESTING` guard (only the
+unit-tests dirs stay guarded). `tests/` builds the **`test-types`** static
+library (the `Test*`/`D4Test*` factory classes) and installs it to `lib`. BES's
+`dapreader` module links `-ltest-types`; without it, the linker silently falls
+back to a **stale, ABI-incompatible copy elsewhere on the box** (e.g.
+`/home/tomcat/lib/libtest-types.a` from an old libdap 3.21), producing
+`undefined symbol: ...D4Group...transform_to_dap2...` /
+`...BaseTypeFactory...NewSequence...` at BES module load.
+
+### 3. `tests_CMakeLists.txt.patch`
+
+Complements 2(c): inside `tests/CMakeLists.txt`, wraps only the test
+**executables** (`das-test`, `dds-test`, `expr-test`, `dmr-test`) and the
+autotest driver generation / `add_test` calls in `if(BUILD_TESTING) ... endif()`.
+The `test-types` library and its `install(TARGETS test-types …)` rule stay
+unconditional, so `-DBUILD_TESTING=OFF` installs `lib/libtest-types.a` without
+building the executables that don't link on CentOS 7.
+
+> Must be built with the same compiler/ABI as libdap and BES — i.e. gcc 5.4
+> (`/home/tomcat/bin/g++`, new `__cxx11` ABI). devtoolset-8's g++ defaults to
+> the OLD ABI and yields `undefined symbol: ...NewSequence...RKSs`.
 
 ## Configure, build, install
 
@@ -112,6 +136,7 @@ nm -D $prefix/lib/libdap.so | grep D4Attributes4find
 
 ```
 lib/libdap.so  lib/libdapclient.so  lib/libdapserver.so
+lib/libtest-types.a       (Test* factory lib, required by BES dapreader)
 bin/dap-config  bin/getdap  bin/getdap4
 include/libdap/*.h        (102 headers)
 include/libdap/test/*.h   (27 Test* factory headers, for BES dapreader)
