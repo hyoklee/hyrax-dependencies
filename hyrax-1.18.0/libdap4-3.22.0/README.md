@@ -66,7 +66,7 @@ The static header hardcodes the TIRPC spellings `xdr_u_int16_t` /
 `__GLIBC__` (and non-WIN32), leaving the TIRPC/BSD path unchanged for other
 platforms.
 
-### 2. `CMakeLists.txt.patch` (three changes)
+### 2. `CMakeLists.txt.patch` (four changes)
 
 **a) Guard the unit tests with `BUILD_TESTING`.** The unit-test executables link
 `libcppunit.so` (built with gcc 5.4, needs `GLIBCXX_3.4.21`) against the older
@@ -94,6 +94,13 @@ back to a **stale, ABI-incompatible copy elsewhere on the box** (e.g.
 `/home/tomcat/lib/libtest-types.a` from an old libdap 3.21), producing
 `undefined symbol: ...D4Group...transform_to_dap2...` /
 `...BaseTypeFactory...NewSequence...` at BES module load.
+
+**d) Bump `LIBDAP_VERSION` to 3.22.0.** The source hardcodes
+`set(LIBDAP_VERSION "3.21.1")` even though the tarball/dir is named
+`libdap4-3.22.0`, so `dap-config --version`, `libdap.so`'s `DVR` string, BES
+`showVersion`, and OLFS `/opendap/version` all reported **3.21.1**. The patch
+sets it to `3.22.0` so the reported version matches the release name. (Cosmetic
+only — no ABI/behavior change; the soname stays `27`.)
 
 ### 3. `tests_CMakeLists.txt.patch`
 
